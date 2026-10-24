@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
-function connectiondbs(url) {
-  return mongoose.connect(url);
+function dbconnection(url){
+    return mongoose.connect(url);
 }
-module.exports = {
-  connectiondbs,
-};
+
+module.exports = dbconnection;

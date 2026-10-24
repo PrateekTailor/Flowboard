@@ -1,14 +1,18 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port  = process.env.PORT;
-const route = require("./Routes/Health");
-const {connectiondbs} = require("./connection");
+const PORT = process.env.PORT;
+const healthroute = require("./Routes/Health");
+const routes = require("./Routes/User");
+const dbconnection = require("./connection");
 
-console.log(process.env.MONGO_URI);
-connectiondbs(process.env.MONGO_URI).then(()=>console.log("database was connected")
-).catch((err)=>console.log("database was not connect",err));
+app.use(express.json());
 
-app.use("/api",route);
+dbconnection(process.env.MONGO_URI)
+.then(()=>console.log("database was connected")
+).catch((err)=>console.log("database was not connected"))
 
-app.listen(port,console.log("server was started"));
+app.use("/",healthroute);
+app.use("/",routes);
+
+app.listen(PORT,console.log("Server Start"));
