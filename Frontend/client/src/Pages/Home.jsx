@@ -3,13 +3,13 @@ import { FaGithub, FaLinkedin, FaLock } from "react-icons/fa";
 import { BsColumnsGap } from "react-icons/bs";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
-import bgimg from "../Images/c30e9a183408a455ddce4a7d704b84d9-removebg-preview.png";
+
 const Homepage = () => {
   return (
     <>
       <Navbar />
       <div className=" w-full bg-gradient-to-b from-[#ffffff] via-[#f4f7fc] via-[#e1ebf7] to-[#c7dcfaa3] text-[#1d1d1f] font-sans antialiased selection:bg-blue-500 selection:text-white min-h-screen">
-        <img src={bgimg} className="absolute top-0 left-0 w-150 h-200 pb-70 pl-40 pt-0" alt="" />
+       
         <div className="flex flex-col justify-center mt-40 relative z-10">
           <div className="flex justify-center">
             <span className="text-7xl font-bold">P</span>
@@ -218,7 +218,7 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-        <div className=" m-30 h-90 w-310 bg-white rounded-2xl border border-gray-300/100 shadow-md flex justify-center flex-col ">
+        <div  className=" m-30 h-90 w-310 bg-white rounded-2xl border border-gray-300/100 shadow-md flex justify-center flex-col ">
           <p className="mt-10 ml-100 text-4xl font-medium">
             Start your task board today
           </p>
