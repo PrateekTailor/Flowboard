@@ -16,9 +16,7 @@ const Board = () => {
         setdisplay(false);
       }
     };
-
     document.addEventListener("mousedown", handleclickoutside);
-
     return () => {
       document.removeEventListener("mousedown", handleclickoutside);
     };
@@ -65,10 +63,12 @@ const Board = () => {
                 <div className="flex flex-col">
                 <label htmlFor="title" className="m-10 mb-0 mt-5 text-lg">Title</label>
                 <input type="text" id="title" className="border-1 rounded-lg m-10 mt-0 p-1 text-lg"  placeholder=" Your title"/>
+                <NavLink to="/boardview/b1">
                 <button className="bg-blue-600 m-10 mt-0 p-2 hover:bg-white border-1 hover:border-black/50 hover:text-black cursor-pointer text-amber-50 rounded-lg">Add board</button>
+                </NavLink>
                 </div>
             </div>:null
-        }
+            }
             <span className="ml-153 mt-60 text-3xl font-medium">No boards yet</span>
             <span className="ml-110 mt-2 text-2xl">Create your first board to start tracking applications.</span>
         </div>

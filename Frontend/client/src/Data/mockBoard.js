@@ -1,11 +1,12 @@
-export const mockBoard={
-    _id:'b1',
-    title:'Placement 2026',
-    column:[
+export const mockBoard=[
+    {
+        _id:'b1',
+        title:'Placement 2026',
+        column:[
         {
             _id:'c1',
-            title:'Applied',
-            tasks:[
+            title1:'Applied',
+            tasks1:[
                 {
                     _id:'t1',
                     title:'SDE intern',
@@ -14,12 +15,20 @@ export const mockBoard={
                     dueDate:'2026-11-12',
                     tags:['DSA'],
                 },
+                {
+                    _id:'t2',
+                    title:'SDE intern',
+                    company:'Black rock',
+                    priority:'Medium',
+                    dueDate:'2026-12-17',
+                    tags:['DSA'],
+                },
             ],
         },
         {
             _id:'c2',
-            title:'OA',
-            tasks:[
+            title2:'OA',
+            tasks2:[
                 {
                     _id:'t1',
                     title:'SWE intern',
@@ -32,8 +41,8 @@ export const mockBoard={
         },
         {
             _id:'c3',
-            title:'Interview',
-            tasks:[
+            title3:'Interview',
+            tasks3:[
                 {
                     _id:'t1',
                     title:'SDE intern',
@@ -46,8 +55,8 @@ export const mockBoard={
         },
         {
             _id:'c4',
-            title:'Offer',
-            tasks:[
+            title4:'Offer',
+            tasks4:[
                 {
                     _id:'t1',
                     title:'SDE intern',
@@ -56,12 +65,13 @@ export const mockBoard={
                     dueDate:'2026-11-17',
                     tags:['DSA'],
                 },
+                
             ],
         },
         {
             _id:'c5',
-            title:'Reject',
-            tasks:[
+            title5:'Reject',
+            tasks5:[
                 {
                     _id:'t1',
                     title:'SDE intern',
@@ -73,4 +83,5 @@ export const mockBoard={
             ],
         },
     ],
-};
+  }
+];
