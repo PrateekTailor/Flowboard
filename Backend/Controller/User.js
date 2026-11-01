@@ -1,8 +1,11 @@
 const bcrypt = require("bcrypt");
 const userdb = require("../Model/User");
 const { setuser } = require("../service/Auth");
-function Homepage(req,res) {
-    return res.end("this is our website homepage");
+function Homepage(req,res){
+    return res.end("This is our website Home Page");
+}
+function Boardpage(req,res) {
+    return res.end("this is our website Boardpage");
 }
 async function Userginup(req,res) {
     const {Name,Email,PasswordHash} = req.body;
@@ -13,7 +16,7 @@ async function Userginup(req,res) {
         Email:Email,
         PasswordHash:PasswordHashed,
     })
-    return res.end("your singup you can go to the login page");
+    return res.redirect("/");
 }
 async function Userlogin(req,res) {
     const {Email,PasswordHash} = req.body;
@@ -26,6 +29,7 @@ async function Userlogin(req,res) {
 }
 module.exports = {
     Homepage,
+    Boardpage,
     Userginup,
     Userlogin,
 }

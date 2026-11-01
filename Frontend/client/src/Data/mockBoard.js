@@ -8,7 +8,7 @@ export const mockBoard=[
             title1:'Applied',
             tasks1:[
                 {
-                    _id:'t1',
+                    _id1:'t1',
                     title:'SDE intern',
                     company:'Google',
                     priority:'High',
@@ -16,8 +16,8 @@ export const mockBoard=[
                     tags:['DSA'],
                 },
                 {
-                    _id:'t2',
-                    title:'SDE intern',
+                    _id2:'t2',
+                    title:'SWE intern',
                     company:'Black rock',
                     priority:'Medium',
                     dueDate:'2026-12-17',
@@ -30,7 +30,7 @@ export const mockBoard=[
             title2:'OA',
             tasks2:[
                 {
-                    _id:'t1',
+                    _id1:'t1',
                     title:'SWE intern',
                     company:'Amazon',
                     priority:'Medium',
@@ -44,7 +44,7 @@ export const mockBoard=[
             title3:'Interview',
             tasks3:[
                 {
-                    _id:'t1',
+                    _id1:'t1',
                     title:'SDE intern',
                     company:'Microsoft',
                     priority:'High',
@@ -58,7 +58,7 @@ export const mockBoard=[
             title4:'Offer',
             tasks4:[
                 {
-                    _id:'t1',
+                    _id1:'t1',
                     title:'SDE intern',
                     company:'Meta',
                     priority:'Medium',
@@ -73,7 +73,7 @@ export const mockBoard=[
             title5:'Reject',
             tasks5:[
                 {
-                    _id:'t1',
+                    _id1:'t1',
                     title:'SDE intern',
                     company:'SalesForce',
                     priority:'Low',
