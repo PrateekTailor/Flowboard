@@ -5,6 +5,7 @@ import { useState } from "react";
 import { LuArrowLeft } from "react-icons/lu";
 import { FaXmark } from "react-icons/fa6";
 import { FaSignOutAlt } from "react-icons/fa";
+import { useBoard } from "../Hooks/useBoard";
 const Boardview = () => {
   const [display, setdisplay] = useState(false);
   const [addapplieedtask, setaddappliedtask] = useState(false);
@@ -12,20 +13,23 @@ const Boardview = () => {
   const [addinterviewtask, setaddinterviewtask] = useState(false);
   const [addoffertask, setaddoffertask] = useState(false);
   const [addrejecttask, setaddrejecttask] = useState(false);
-  const [existingappliedtask, setexistingapplieddtask] = useState([""]);
-  const [existingoatask,setexistingoatask]=useState([]);
+  // const [existingappliedtask, setexistingapplieddtask] = useState([""]);
+  // const [existingoatask, setexistingoatask] = useState([]);
   const [newappliedtask, setnewapplieddtask] = useState([]);
-  const [newoatask, setnewoatask] = useState([""]);
-  const [interviewtask, setinterviewtask] = useState([""]);
-  const [offertask, setoffertask] = useState([""]);
-  const [rejecttask, setrejecttask] = useState([""]);
+  const [newoatask, setnewoatask] = useState([]);
+  const [newinterviewtask, setnewinterviewtask] = useState([]);
+  const [newoffertask, setnewoffertask] = useState([]);
+  const [newrejecttask, setnewrejecttask] = useState([]);
   const [companyname, setcompanyname] = useState("");
   const [role, setrole] = useState("");
   const [tags, settags] = useState("");
   const [duedate, setduedate] = useState("");
   const { id } = useParams();
-  console.log("Board id:", id);
+  // console.log("Board id:", id);
   const board = mockBoard.find((b) => b._id === id);
+ const Board =  useBoard(id)
+  console.log(Board);
+  
   const toggale = () => {
     setdisplay(!display);
   };
@@ -52,7 +56,7 @@ const Boardview = () => {
       Tags: tags,
       Duedate: duedate,
     };
-    setnewoatask([...oatask, task]);
+    setnewoatask([...newoatask, task]);
     setcompanyname("");
     setduedate("");
     setrole("");
@@ -67,7 +71,7 @@ const Boardview = () => {
       Tags: tags,
       Duedate: duedate,
     };
-    setinterviewtask([...appliedtask, task]);
+    setnewinterviewtask([...newinterviewtask, task]);
     setcompanyname("");
     setduedate("");
     setrole("");
@@ -82,7 +86,7 @@ const Boardview = () => {
       Tags: tags,
       Duedate: duedate,
     };
-    setoffertask([...appliedtask, task]);
+    setnewoffertask([...newoffertask, task]);
     setcompanyname("");
     setduedate("");
     setrole("");
@@ -97,7 +101,7 @@ const Boardview = () => {
       Tags: tags,
       Duedate: duedate,
     };
-    setrejecttask([...appliedtask, task]);
+    setnewrejecttask([...newrejecttask, task]);
     setcompanyname("");
     setduedate("");
     setrole("");
@@ -108,6 +112,18 @@ const Boardview = () => {
     if (column === "applied") {
       setnewapplieddtask([newappliedtask.filter((t) => t._id !== id)]);
       setnewapplieddtask([]);
+    }else if(column === "oa"){
+      setnewoatask([newoatask.filter((t)=>t._id !== id)]);
+      setnewoatask([]);
+    }else if(column === "interview"){
+      setnewinterviewtask([newinterviewtask.filter((t) => t._id !== id)]);
+      setnewinterviewtask([]);
+    }else if(column === "offer"){
+      setnewoffertask([newoffertask.filter((t)=>t._id!==id)]);
+      setnewoffertask([]);
+    }else if(column === "reject"){
+      setnewrejecttask([newrejecttask.filter((t)=> t._id !== id)]);
+      setnewrejecttask([]);
     }
   };
   if (!board) {
@@ -206,7 +222,7 @@ const Boardview = () => {
           <div>
             <NavLink
               className="h-10 w-55 bg-blue-600 p-1 m-10  pl-4 pr-2 -pt-3 text-2xl rounded-lg text-amber-50 flex"
-              to="/board"
+              to="/board/b1"
             >
               <LuArrowLeft className="mt-1 -ml-1 mr-1"></LuArrowLeft> Back to
               boards
@@ -229,7 +245,7 @@ const Boardview = () => {
                 <p>{applied?.tasks1.length ?? 0}</p>
               </div>
 
-              {existingappliedtask.map((task) => (
+              {/* Existing applied task from mockboard  */}
                 <div>
                   <div className="h-42 w-62 ml-4 bg-white rounded-lg">
                     {mockBoard.map((board) => (
@@ -265,7 +281,7 @@ const Boardview = () => {
                       onClick={() => handleremovetask(task._id, "applied")}
                       className=" bg-gray-200 pl-24 pr-24 cursor-pointer "
                     >
-                      Remove
+                      Delete
                     </button>
                   </div>
                   <div className="h-42 w-62 ml-4 bg-white rounded-lg mt-5">
@@ -302,30 +318,28 @@ const Boardview = () => {
                       onClick={() => handleremovetask(task._id, "applied")}
                       className=" bg-gray-200 pl-24 pr-24 cursor-pointer "
                     >
-                      Remove
+                      Delete
                     </button>
                   </div>
                 </div>
-              ))}
-
+              
 
               {newappliedtask.map((newtask) => (
-                
                 <div className="h-42 w-62 ml-4 bg-white rounded-lg mt-5">
-                    <p className="p-5 text-2xl">{newtask.company}</p>
-                    <p className="p-5 pt-0 -mt-4 text-md opacity-50">
-                      {newtask.Role}
-                    </p>
-                    <p className="p-5 pt-0 -mt-4 pb-0">{newtask.Tags}</p>
-                    <p className="mt-0.5 ml-40 opacity-50 mb-1">
-                      {newtask.Duedate}
-                    </p>
+                  <p className="p-5 text-2xl">{newtask.company}</p>
+                  <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                    {newtask.Role}
+                  </p>
+                  <p className="p-5 pt-0 -mt-4 pb-0">{newtask.Tags}</p>
+                  <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                    {newtask.Duedate}
+                  </p>
                   <button
                     onClick={() => handleremovetask(newtask._id, "applied")}
-                    className=" bg-gray-200 pl-24 pr-24 cursor-pointer">
-                    Remove
+                    className=" bg-gray-200 pl-24 pr-24 cursor-pointer"
+                  >
+                    Delete
                   </button>
-                  
                 </div>
               ))}
 
@@ -336,6 +350,7 @@ const Boardview = () => {
                 Add task
               </button>
             </div>
+
             {addapplieedtask ? (
               <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg fixed ml-120 mt-10 rounded-lg">
                 <div className="flex flex-col m-5 pt-2">
@@ -396,13 +411,97 @@ const Boardview = () => {
               </div>
             ) : null}
 
+            <div
+              className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg"
+              name="oa"
+            >
+              {/* header/title of the tab  */}
+              <div className="flex justify-between m-5 -ml-9 text-md font-medium">
+                {board.column.map((col) => (
+                  <div>
+                    <p>{col.title2}</p>
+                  </div>
+                ))}
+                <p>{oa?.tasks2.length ?? 0}</p>
+              </div>
+
+              {/* existing oa task from mockBoard  */}
+              <div>
+                <div className="h-42 w-62 ml-4 bg-white rounded-lg">
+                    {mockBoard.map((board) => (
+                      <div>
+                        {board.column.map((col) => (
+                          <div>
+                            {col.tasks2 &&
+                              col.tasks2.map((tas) => (
+                                <div>
+                                  {tas._id1 && (
+                                    <div>
+                                      <p className="p-5 text-2xl">
+                                        {tas.company}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                                        {tas.title}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 pb-0">
+                                        {tas.tags}
+                                      </p>
+                                      <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                                        {tas.dueDate}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                    <button
+                      onClick={() => handleremovetask(task._id, "applied")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer "
+                    >
+                      Delete
+                    </button>
+                  </div>
+              </div>
+
+              {/* new oa task  */}
+              {newoatask &&
+                newoatask.map((newtask) => (
+                  <div className="h-42 w-62 ml-4 bg-white rounded-lg mt-5">
+                    <p className="p-5 text-2xl">{newtask.company}</p>
+                    <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                      {newtask.Role}
+                    </p>
+                    <p className="p-5 pt-0 -mt-4 pb-0">{newtask.Tags}</p>
+                    <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                      {newtask.Duedate}
+                    </p>
+                    <button
+                      onClick={() => handleremovetask(newtask._id, "oa")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+
+              <button
+                onClick={() => setaddoatask(true)}
+                className="bg-gray-200 pl-24 pr-24 ml-3.5 mr-1 mt-4 pt-1 pb-1 rounded-md cursor-pointer"
+              >
+                Add task
+              </button>
+            </div>
+
             {addoatask ? (
               <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg fixed ml-120 mt-10 rounded-lg">
                 <div className="flex flex-col m-5 pt-2">
                   <div className="flex justify-between">
                     <p className="text-2xl font-medium">Add task</p>
 
-                    <button onClick={() => setaddtask(false)}>
+                    <button onClick={() => setaddoatask(false)}>
                       <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
                     </button>
                   </div>
@@ -455,202 +554,14 @@ const Boardview = () => {
                 </div>
               </div>
             ) : null}
-            {addinterviewtask ? (
-              <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg absolute ml-120 mt-10 rounded-lg">
-                <div className="flex flex-col m-5 pt-2">
-                  <div className="flex justify-between">
-                    <p className="text-2xl font-medium">Add task</p>
 
-                    <button onClick={() => setaddtask(false)}>
-                      <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
-                    </button>
-                  </div>
-                  <label htmlFor="company" className="text-md mb-1 mt-2">
-                    Company name
-                  </label>
-                  <input
-                    type="text"
-                    name="companyname"
-                    placeholder="Your company name"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setcompanyname(e.target.value)}
-                  />
-                  <label htmlFor="role" className="text-md mb-1 mt-3">
-                    Role
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your role"
-                    name="role"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setrole(e.target.value)}
-                  />
-                  <p className="mt-3">Tags</p>
-                  <select
-                    name="tags"
-                    id=""
-                    className="border-1 rounded-md mt-1 p-1"
-                    onChange={(e) => settags(e.target.value)}
-                  >
-                    <option value="Dsa">DSA</option>
-                    <option value="Web">Full stack developer</option>
-                    <option value="Web">Backend developer</option>
-                    <option value="Web">Frontend developer</option>
-                    <option value="Web">Cloud developer</option>
-                  </select>
-                  <p className="mt-2 mb-1">Duedate</p>
-                  <input
-                    type="date"
-                    name="duedate"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setduedate(e.target.value)}
-                  />
-                  <button
-                    onClick={handleappliedtask}
-                    className=" cursor-pointer mt-5 bg-blue-600 text-white p-1.5 rounded-md hover:bg-white border-2 border-black border-black/10 hover:text-black  hover:broder-black/70"
-                  >
-                    Add task
-                  </button>
-                </div>
-              </div>
-            ) : null}
-            {addoffertask ? (
-              <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg absolute ml-120 mt-10 rounded-lg">
-                <div className="flex flex-col m-5 pt-2">
-                  <div className="flex justify-between">
-                    <p className="text-2xl font-medium">Add task</p>
+            <div
+              className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg"
+              name="interview"
+            >
 
-                    <button onClick={() => setaddtask(false)}>
-                      <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
-                    </button>
-                  </div>
-                  <label htmlFor="company" className="text-md mb-1 mt-2">
-                    Company name
-                  </label>
-                  <input
-                    type="text"
-                    name="companyname"
-                    placeholder="Your company name"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setcompanyname(e.target.value)}
-                  />
-                  <label htmlFor="role" className="text-md mb-1 mt-3">
-                    Role
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your role"
-                    name="role"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setrole(e.target.value)}
-                  />
-                  <p className="mt-3">Tags</p>
-                  <select
-                    name="tags"
-                    id=""
-                    className="border-1 rounded-md mt-1 p-1"
-                    onChange={(e) => settags(e.target.value)}
-                  >
-                    <option value="Dsa">DSA</option>
-                    <option value="Web">Full stack developer</option>
-                    <option value="Web">Backend developer</option>
-                    <option value="Web">Frontend developer</option>
-                    <option value="Web">Cloud developer</option>
-                  </select>
-                  <p className="mt-2 mb-1">Duedate</p>
-                  <input
-                    type="date"
-                    name="duedate"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setduedate(e.target.value)}
-                  />
-                  <button
-                    onClick={handleappliedtask}
-                    className=" cursor-pointer mt-5 bg-blue-600 text-white p-1.5 rounded-md hover:bg-white border-2 border-black border-black/10 hover:text-black  hover:broder-black/70"
-                  >
-                    Add task
-                  </button>
-                </div>
-              </div>
-            ) : null}
-            {addrejecttask ? (
-              <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg absolute ml-120 mt-10 rounded-lg">
-                <div className="flex flex-col m-5 pt-2">
-                  <div className="flex justify-between">
-                    <p className="text-2xl font-medium">Add task</p>
-
-                    <button onClick={() => setaddtask(false)}>
-                      <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
-                    </button>
-                  </div>
-                  <label htmlFor="company" className="text-md mb-1 mt-2">
-                    Company name
-                  </label>
-                  <input
-                    type="text"
-                    name="companyname"
-                    placeholder="Your company name"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setcompanyname(e.target.value)}
-                  />
-                  <label htmlFor="role" className="text-md mb-1 mt-3">
-                    Role
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your role"
-                    name="role"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setrole(e.target.value)}
-                  />
-                  <p className="mt-3">Tags</p>
-                  <select
-                    name="tags"
-                    id=""
-                    className="border-1 rounded-md mt-1 p-1"
-                    onChange={(e) => settags(e.target.value)}
-                  >
-                    <option value="Dsa">DSA</option>
-                    <option value="Web">Full stack developer</option>
-                    <option value="Web">Backend developer</option>
-                    <option value="Web">Frontend developer</option>
-                    <option value="Web">Cloud developer</option>
-                  </select>
-                  <p className="mt-2 mb-1">Duedate</p>
-                  <input
-                    type="date"
-                    name="duedate"
-                    className="border-1 rounded-md p-1"
-                    onChange={(e) => setduedate(e.target.value)}
-                  />
-                  <button
-                    onClick={handleappliedtask}
-                    className=" cursor-pointer mt-5 bg-blue-600 text-white p-1.5 rounded-md hover:bg-white border-2 border-black border-black/10 hover:text-black  hover:broder-black/70"
-                  >
-                    Add task
-                  </button>
-                </div>
-              </div>
-            ) : null}
-            <div className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg">
-              <div className="flex justify-between m-5 -ml-5 text-md font-medium">
-                {board.column.map((col) => (
-                  <div>
-                    <p>{col.title2}</p>
-                  </div>
-                ))}
-                <p>{oa?.tasks2.length ?? 0}</p>
-              </div>
-
-              <button
-                onClick={() => setaddoatask(true)}
-                className="bg-gray-200 pl-24 pr-24 ml-3.5 mr-1 mt-4 pt-1 pb-1 rounded-md cursor-pointer"
-              >
-                Add task
-              </button>
-            </div>
-            <div className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg">
-              <div className="flex justify-between m-5 -ml-5 text-md font-medium">
+              {/* header/title of the tab  */}
+              <div className="flex justify-between m-5 -ml-23 text-md font-medium">
                 {board.column.map((col) => (
                   <div>
                     <p>{col.title3}</p>
@@ -658,6 +569,68 @@ const Boardview = () => {
                 ))}
                 <p>{interview?.tasks3.length ?? 0}</p>
               </div>
+
+              <div>
+                <div className="h-42 w-62 ml-4 bg-white rounded-lg">
+                    {mockBoard.map((board) => (
+                      <div>
+                        {board.column.map((col) => (
+                          <div>
+                            {col.tasks3 &&
+                              col.tasks3.map((tas) => (
+                                <div>
+                                  {tas._id1 && (
+                                    <div>
+                                      <p className="p-5 text-2xl">
+                                        {tas.company}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                                        {tas.title}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 pb-0">
+                                        {tas.tags}
+                                      </p>
+                                      <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                                        {tas.dueDate}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                    <button
+                      onClick={() => handleremovetask(task._id, "applied")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer "
+                    >
+                      Delete
+                    </button>
+                  </div>
+              </div>
+
+              {
+                newinterviewtask && newinterviewtask.map((newtask)=>(
+                  <div className="h-42 w-62 ml-4 bg-white rounded-lg mt-5">
+                    <p className="p-5 text-2xl">{newtask.company}</p>
+                    <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                      {newtask.Role}
+                    </p>
+                    <p className="p-5 pt-0 -mt-4 pb-0">{newtask.Tags}</p>
+                    <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                      {newtask.Duedate}
+                    </p>
+                    <button
+                      onClick={() => handleremovetask(newtask._id, "interview")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))
+              }
+
               <button
                 onClick={() => setaddinterviewtask(true)}
                 className="bg-gray-200 pl-24 pr-24 ml-3.5 mr-1 mt-4 pt-1 pb-1 rounded-md cursor-pointer"
@@ -665,8 +638,74 @@ const Boardview = () => {
                 Add task
               </button>
             </div>
-            <div className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg">
-              <div className="flex justify-between m-5 -ml-5 text-md font-medium">
+
+            {addinterviewtask ? (
+              <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg absolute ml-120 mt-10 rounded-lg">
+                <div className="flex flex-col m-5 pt-2">
+                  <div className="flex justify-between">
+                    <p className="text-2xl font-medium">Add task</p>
+
+                    <button onClick={() => setaddinterviewtask(false)}>
+                      <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
+                    </button>
+                  </div>
+                  <label htmlFor="company" className="text-md mb-1 mt-2">
+                    Company name
+                  </label>
+                  <input
+                    type="text"
+                    name="companyname"
+                    placeholder="Your company name"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setcompanyname(e.target.value)}
+                  />
+                  <label htmlFor="role" className="text-md mb-1 mt-3">
+                    Role
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Your role"
+                    name="role"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setrole(e.target.value)}
+                  />
+                  <p className="mt-3">Tags</p>
+                  <select
+                    name="tags"
+                    id=""
+                    className="border-1 rounded-md mt-1 p-1"
+                    onChange={(e) => settags(e.target.value)}
+                  >
+                    <option value="Dsa">DSA</option>
+                    <option value="Web">Full stack developer</option>
+                    <option value="Web">Backend developer</option>
+                    <option value="Web">Frontend developer</option>
+                    <option value="Web">Cloud developer</option>
+                  </select>
+                  <p className="mt-2 mb-1">Duedate</p>
+                  <input
+                    type="date"
+                    name="duedate"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setduedate(e.target.value)}
+                  />
+                  <button
+                    onClick={handleinterviewtask}
+                    className=" cursor-pointer mt-5 bg-blue-600 text-white p-1.5 rounded-md hover:bg-white border-2 border-black border-black/10 hover:text-black  hover:broder-black/70"
+                  >
+                    Add task
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            <div
+              className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg"
+              name="offer"
+            >
+
+              {/* header/title of the tab */}
+              <div className="flex justify-between m-5 -ml-70 text-md font-medium">
                 {board.column.map((col) => (
                   <div>
                     <p>{col.title4}</p>
@@ -674,6 +713,69 @@ const Boardview = () => {
                 ))}
                 <p>{offer?.tasks4.length ?? 0}</p>
               </div>
+  
+                {/* existing offer task  */}
+                <div>
+                  <div className="h-42 w-62 ml-4 bg-white rounded-lg">
+                    {mockBoard.map((board) => (
+                      <div>
+                        {board.column.map((col) => (
+                          <div>
+                            {col.tasks4 &&
+                              col.tasks4.map((tas) => (
+                                <div>
+                                  {tas._id1 && (
+                                    <div>
+                                      <p className="p-5 text-2xl">
+                                        {tas.company}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                                        {tas.title}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 pb-0">
+                                        {tas.tags}
+                                      </p>
+                                      <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                                        {tas.dueDate}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                    <button
+                      onClick={() => handleremovetask(task._id, "offer")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer "
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                {
+                  newoffertask && newoffertask.map((newtask)=>(
+                    <div className="h-42 w-62 ml-4 bg-white rounded-lg mt-5">
+                    <p className="p-5 text-2xl">{newtask.company}</p>
+                    <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                      {newtask.Role}
+                    </p>
+                    <p className="p-5 pt-0 -mt-4 pb-0">{newtask.Tags}</p>
+                    <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                      {newtask.Duedate}
+                    </p>
+                    <button
+                      onClick={() => handleremovetask(newtask._id, "offer")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                  ))
+                }
+
               <button
                 onClick={() => setaddoffertask(true)}
                 className="bg-gray-200 pl-24 pr-24 ml-3.5 mr-1 mt-4 pt-1 pb-1 rounded-md cursor-pointer"
@@ -681,8 +783,73 @@ const Boardview = () => {
                 Add task
               </button>
             </div>
-            <div className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg">
-              <div className="flex justify-between m-5 -ml-5 text-md font-medium">
+
+            {addoffertask ? (
+              <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg absolute ml-120 mt-10 rounded-lg">
+                <div className="flex flex-col m-5 pt-2">
+                  <div className="flex justify-between">
+                    <p className="text-2xl font-medium">Add task</p>
+
+                    <button onClick={() => setaddoffertask(false)}>
+                      <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
+                    </button>
+                  </div>
+                  <label htmlFor="company" className="text-md mb-1 mt-2">
+                    Company name
+                  </label>
+                  <input
+                    type="text"
+                    name="companyname"
+                    placeholder="Your company name"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setcompanyname(e.target.value)}
+                  />
+                  <label htmlFor="role" className="text-md mb-1 mt-3">
+                    Role
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Your role"
+                    name="role"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setrole(e.target.value)}
+                  />
+                  <p className="mt-3">Tags</p>
+                  <select
+                    name="tags"
+                    id=""
+                    className="border-1 rounded-md mt-1 p-1"
+                    onChange={(e) => settags(e.target.value)}
+                  >
+                    <option value="Dsa">DSA</option>
+                    <option value="Web">Full stack developer</option>
+                    <option value="Web">Backend developer</option>
+                    <option value="Web">Frontend developer</option>
+                    <option value="Web">Cloud developer</option>
+                  </select>
+                  <p className="mt-2 mb-1">Duedate</p>
+                  <input
+                    type="date"
+                    name="duedate"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setduedate(e.target.value)}
+                  />
+                  <button
+                    onClick={handleoffertask}
+                    className=" cursor-pointer mt-5 bg-blue-600 text-white p-1.5 rounded-md hover:bg-white border-2 border-black border-black/10 hover:text-black  hover:broder-black/70"
+                  >
+                    Add task
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            <div
+              className="bg-gray-100 h-screen w-100 m-5 ml-0 rounded-lg"
+              name="reject"
+            >
+              {/* header/title of the tab  */}
+              <div className="flex justify-between m-5 -ml-190 text-md font-medium">
                 {board.column.map((col) => (
                   <div>
                     <p>{col.title5}</p>
@@ -690,6 +857,68 @@ const Boardview = () => {
                 ))}
                 <p>{reject?.tasks5.length ?? 0}</p>
               </div>
+
+                <div>
+                   <div className="h-42 w-62 ml-4 bg-white rounded-lg">
+                    {mockBoard.map((board) => (
+                      <div>
+                        {board.column.map((col) => (
+                          <div>
+                            {col.tasks5 &&
+                              col.tasks5.map((tas) => (
+                                <div>
+                                  {tas._id1 && (
+                                    <div>
+                                      <p className="p-5 text-2xl">
+                                        {tas.company}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                                        {tas.title}
+                                      </p>
+                                      <p className="p-5 pt-0 -mt-4 pb-0">
+                                        {tas.tags}
+                                      </p>
+                                      <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                                        {tas.dueDate}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                    <button
+                      onClick={() => handleremovetask(task._id, "reject")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer "
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+  
+                    {
+                      newrejecttask && newrejecttask.map((newtask)=>(
+                         <div className="h-42 w-62 ml-4 bg-white rounded-lg mt-5">
+                    <p className="p-5 text-2xl">{newtask.company}</p>
+                    <p className="p-5 pt-0 -mt-4 text-md opacity-50">
+                      {newtask.Role}
+                    </p>
+                    <p className="p-5 pt-0 -mt-4 pb-0">{newtask.Tags}</p>
+                    <p className="mt-0.5 ml-40 opacity-50 mb-1">
+                      {newtask.Duedate}
+                    </p>
+                    <button
+                      onClick={() => handleremovetask(newtask._id, "reject")}
+                      className=" bg-gray-200 pl-24 pr-24 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                      ))
+                    }
+
               <button
                 onClick={() => setaddrejecttask(true)}
                 className="bg-gray-200 pl-24 pr-24 ml-3.5 mr-1 mt-4 pt-1 pb-1 rounded-md cursor-pointer"
@@ -697,6 +926,66 @@ const Boardview = () => {
                 Add task
               </button>
             </div>
+
+            {addrejecttask ? (
+              <div className=" h-105 w-140 bg-[#ffffff9c] shadow-lg absolute ml-120 mt-10 rounded-lg">
+                <div className="flex flex-col m-5 pt-2">
+                  <div className="flex justify-between">
+                    <p className="text-2xl font-medium">Add task</p>
+
+                    <button onClick={() => setaddrejecttask(false)}>
+                      <FaXmark className="text-2xl -mt-2 cursor-pointer"></FaXmark>
+                    </button>
+                  </div>
+                  <label htmlFor="company" className="text-md mb-1 mt-2">
+                    Company name
+                  </label>
+                  <input
+                    type="text"
+                    name="companyname"
+                    placeholder="Your company name"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setcompanyname(e.target.value)}
+                  />
+                  <label htmlFor="role" className="text-md mb-1 mt-3">
+                    Role
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Your role"
+                    name="role"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setrole(e.target.value)}
+                  />
+                  <p className="mt-3">Tags</p>
+                  <select
+                    name="tags"
+                    id=""
+                    className="border-1 rounded-md mt-1 p-1"
+                    onChange={(e) => settags(e.target.value)}
+                  >
+                    <option value="Dsa">DSA</option>
+                    <option value="Web">Full stack developer</option>
+                    <option value="Web">Backend developer</option>
+                    <option value="Web">Frontend developer</option>
+                    <option value="Web">Cloud developer</option>
+                  </select>
+                  <p className="mt-2 mb-1">Duedate</p>
+                  <input
+                    type="date"
+                    name="duedate"
+                    className="border-1 rounded-md p-1"
+                    onChange={(e) => setduedate(e.target.value)}
+                  />
+                  <button
+                    onClick={handlerejecttask}
+                    className=" cursor-pointer mt-5 bg-blue-600 text-white p-1.5 rounded-md hover:bg-white border-2 border-black border-black/10 hover:text-black  hover:broder-black/70"
+                  >
+                    Add task
+                  </button>
+                </div>
+              </div>
+            ) : null}
           </div>
         </main>
       </div>
