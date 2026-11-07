@@ -4,7 +4,8 @@ const { ristricttologinuser } = require("../middleware/auth");
 const router = express.Router();
 router.get("/",Homepage);
 router.get("/board",ristricttologinuser,Boardpage);
-router.post("/signup",Userginup);
-router.post("/login",Userlogin);
+router.get("/board/:id",ristricttologinuser,Boardpage);
+router.post("/auth/signup",Userginup);
+router.post("/auth/login",Userlogin);
 
 module.exports = router;

@@ -13,6 +13,6 @@ dbconnection(process.env.MONGO_URI)
 ).catch((err)=>console.log("database was not connected"))
 
 app.use("/",healthroute);
-app.use("/",routes);
+app.use("/api",routes);
 
 app.listen(PORT,console.log("Server Start"));

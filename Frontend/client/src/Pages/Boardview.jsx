@@ -242,7 +242,7 @@ const Boardview = () => {
                     <p>{col.title1}</p>
                   </div>
                 ))}
-                <p>{applied?.tasks1.length ?? 0}</p>
+                <p>{(applied?.tasks1.length ?? 0)+(newappliedtask?.length ?? 0)}</p>
               </div>
 
               {/* Existing applied task from mockboard  */}
@@ -422,7 +422,7 @@ const Boardview = () => {
                     <p>{col.title2}</p>
                   </div>
                 ))}
-                <p>{oa?.tasks2.length ?? 0}</p>
+                <p>{(oa?.tasks2.length ?? 0)+(newoatask?.length ?? 0)}</p>
               </div>
 
               {/* existing oa task from mockBoard  */}
@@ -567,7 +567,7 @@ const Boardview = () => {
                     <p>{col.title3}</p>
                   </div>
                 ))}
-                <p>{interview?.tasks3.length ?? 0}</p>
+                <p>{(interview?.tasks3.length ?? 0)+(newinterviewtask?.length ?? 0)}</p>
               </div>
 
               <div>
@@ -711,7 +711,7 @@ const Boardview = () => {
                     <p>{col.title4}</p>
                   </div>
                 ))}
-                <p>{offer?.tasks4.length ?? 0}</p>
+                <p>{(offer?.tasks4.length ?? 0)+(newoffertask?.length ?? 0)}</p>
               </div>
   
                 {/* existing offer task  */}
@@ -855,7 +855,7 @@ const Boardview = () => {
                     <p>{col.title5}</p>
                   </div>
                 ))}
-                <p>{reject?.tasks5.length ?? 0}</p>
+                <p>{(reject?.tasks5.length ?? 0)+(newrejecttask?.length ?? 0)}</p>
               </div>
 
                 <div>
