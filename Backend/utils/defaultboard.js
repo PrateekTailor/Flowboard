@@ -4,7 +4,7 @@ const column = require("../Models/Column");
 const DEFAULT_COLUMN=["Applied","OA","Interview","Offer","Reject"];
 const createdefaultboard=async(userId)=>{
     const Board = await board.create({
-        title:"Placement 2026",
+        title:"Placement 2027",
         owner:userId,
     })
     console.log("Board:",Board);
